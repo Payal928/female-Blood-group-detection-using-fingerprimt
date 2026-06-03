@@ -42,7 +42,7 @@ os.makedirs(PDF_FOLDER, exist_ok=True)
 # Load Model
 # ─────────────────────────────────────────────
 
-MODEL_PATH = 'blood_group_model_girls_augmented.keras'
+MODEL_PATH = 'bld_detection_augmented_girls.h5'
 
 try:
 
