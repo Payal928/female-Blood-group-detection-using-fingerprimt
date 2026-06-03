@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="detect-container">
+
+    <div class="glass-card detect-card">
+
+        <h1>Female Blood Group Detection</h1>
+
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+
+        <form
+            action="/predict"
+            method="POST"
+            enctype="multipart/form-data"
+            onsubmit="showLoader()"
+        >
+
+            <div class="form-grid">
+
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Full Name"
+                    required
+                >
+
+                <input
+                    type="number"
+                    name="age"
+                    placeholder="Age"
+                    required
+                >
+
+                <input
+                    type="text"
+                    value="Female"
+                    readonly
+                >
+
+                <input
+                    type="text"
+                    name="phone"
+                    placeholder="Contact Number"
+                    required
+                >
+
+            </div>
+
+            <textarea
+                name="address"
+                rows="4"
+                placeholder="Address"
+                required
+            ></textarea>
+
+            <!-- Upload Box -->
+
+            <div class="upload-box">
+
+                <input
+                    type="file"
+                    name="fingerprint"
+                    accept=".jpg,.jpeg,.png,.bmp"
+                    required
+                >
+
+                <p>Drag fingerprint image here</p>
+
+                <span>Supported: JPG, PNG, BMP</span>
+
+            </div>
+
+            <!-- Submit Button -->
+
+            <button
+                type="submit"
+                class="analyze-btn"
+            >
+                Analyze Fingerprint
+            </button>
+
+            <!-- Loading Screen -->
+
+            <div id="loading-screen">
+
+                <div class="loader"></div>
+
+                <h2>Analyzing Fingerprint...</h2>
+
+                <p>Please wait while AI processes the image</p>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- JavaScript -->
+
+<script>
+
+function showLoader(){
+
+    document.getElementById("loading-screen").style.display = "flex";
+
+}
+
+</script>
+
+{% endblock %}

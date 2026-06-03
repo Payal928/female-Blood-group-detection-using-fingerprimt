@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="report-container">
+
+    <div class="glass-card report-card">
+
+        <h1>Female Blood Group Analysis Report</h1>
+
+        <div class="report-grid">
+
+            <!-- LEFT SIDE -->
+
+            <div class="report-details">
+
+                <h2>Patient Details</h2>
+
+                <p>
+                    <b>Name:</b>
+                    {{ name }}
+                </p>
+
+                <p>
+                    <b>Age:</b>
+                    {{ age }}
+                </p>
+
+                <p>
+                    <b>Gender:</b>
+                    Female
+                </p>
+
+                <p>
+                    <b>Phone:</b>
+                    {{ phone }}
+                </p>
+
+                <p>
+                    <b>Address:</b>
+                    {{ address }}
+                </p>
+
+                <p>
+                    <b>Date:</b>
+                    {{ date.split(' ')[0] }}
+                </p>
+
+                <p>
+                    <b>Time:</b>
+                    {{ date.split(' ')[1] }}
+                </p>
+
+            </div>
+
+            <!-- RIGHT SIDE -->
+
+            <div class="result-box">
+
+                <img
+                    src="{{ url_for('static', filename='uploads/' + image_file) }}"
+                    width="220"
+                    class="fingerprint-img"
+                >
+
+                <h2>
+                    Prediction:
+                    {{ blood_group }}
+                </h2>
+
+                <h3>
+                    Confidence:
+                    {{ confidence }}%
+                </h3>
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress"
+                        style="width: {{ confidence }}%"
+                    ></div>
+
+                </div>
+
+                <!-- DOWNLOAD BUTTON -->
+
+                <a
+                    href="{{ url_for('static', filename='reports/' + pdf_file) }}"
+                    download
+                    class="download-btn"
+                >
+                    Download PDF Report
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
