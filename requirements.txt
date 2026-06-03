@@ -6,3 +6,4 @@ Pillow==10.3.0
 werkzeug==3.0.3
 h5py==3.11.0
 gunicorn
+reportlab==4.2.2
