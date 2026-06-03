@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
+import pydoc
 
 import tensorflow as tf
 import numpy as np
@@ -44,10 +45,6 @@ os.makedirs(PDF_FOLDER, exist_ok=True)
 
 MODEL_PATH = 'blood_group_model_girls_augmented.keras'
 
-print("Current Directory:", os.getcwd())
-print("Model Exists:", os.path.exists(MODEL_PATH))
-print("Model Path:", MODEL_PATH)
-
 try:
 
     model = tf.keras.models.load_model(
@@ -58,11 +55,8 @@ try:
     print("✅ Model loaded successfully")
 
 except Exception as e:
-    import traceback
 
-    print("❌ MODEL LOAD FAILED")
-    print("ERROR:", str(e))
-    traceback.print_exc()
+    print("❌ Error loading model:", e)
 
     model = None
 
@@ -164,7 +158,7 @@ def generate_pdf_report(
     header = Image(
         "static/images/college_header.png",
         width=520,
-        height=120
+        height=100
     )
 
     elements.append(header)
@@ -182,7 +176,7 @@ def generate_pdf_report(
         )
     )
 
-    elements.append(Spacer(1,25))
+    elements.append(Spacer(1,20))
 
     # ─────────────────────────────────────
     # PATIENT DETAILS
@@ -257,8 +251,8 @@ def generate_pdf_report(
 
     fingerprint = Image(
         image_path,
-        width=220,
-        height=220
+        width=80,
+        height=80
     )
 
     elements.append(fingerprint)
@@ -278,11 +272,19 @@ def generate_pdf_report(
 
     elements.append(Spacer(1,10))
 
-    interpretation = """
-    The fingerprint sample was analyzed using an Artificial Intelligence
-    based Deep Learning model trained for female blood group prediction.
-    The generated result represents the predicted blood group pattern
-    identified through biometric fingerprint analysis techniques.
+    interpretation = f"""
+    The Female Blood Group Detection system utilizes Artificial Intelligence
+    and Deep Learning techniques to analyze fingerprint patterns and predict
+    the probable blood group of an individual.
+
+    Based on the uploaded fingerprint sample, the system has predicted the
+    blood group as <b>{blood_group}</b> with a confidence score of
+    <b>{confidence}%</b>.
+
+    This prediction is intended for academic research and educational
+    purposes and should not be considered a substitute for laboratory blood
+    group testing. Clinical blood typing methods remain the most reliable
+    approach for determining an individual's blood group.
     """
 
     elements.append(
@@ -292,7 +294,7 @@ def generate_pdf_report(
         )
     )
 
-    elements.append(Spacer(1,25))
+    elements.append(Spacer(1,20))
 
     # ─────────────────────────────────────
     # PROJECT CONTRIBUTORS
@@ -321,35 +323,6 @@ def generate_pdf_report(
 
     elements.append(Spacer(1,25))
 
-    # ─────────────────────────────────────
-    # NOTE SECTION
-    # ─────────────────────────────────────
-
-    elements.append(
-        Paragraph(
-            "NOTE",
-            heading_style
-        )
-    )
-
-    elements.append(Spacer(1,10))
-
-    note_text = """
-    This report is generated using AI-powered fingerprint analysis
-    and Deep Learning techniques for female blood group prediction.
-    The generated result is only an AI-based prediction and may not
-    be 100% accurate. This report should be used for academic and
-    research purposes only.
-    """
-
-    elements.append(
-        Paragraph(
-            note_text,
-            normal_style
-        )
-    )
-
-    elements.append(Spacer(1,30))
 
     # ─────────────────────────────────────
     # FOOTER
@@ -554,5 +527,5 @@ def predict():
 # ─────────────────────────────────────────────
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+
+    app.run(debug=True)
