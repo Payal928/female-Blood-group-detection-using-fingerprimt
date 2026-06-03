@@ -42,7 +42,11 @@ os.makedirs(PDF_FOLDER, exist_ok=True)
 # Load Model
 # ─────────────────────────────────────────────
 
-MODEL_PATH = 'bld_detection_augmented_girls.h5'
+MODEL_PATH = 'blood_group_model_girls_augmented.keras'
+
+print("Current Directory:", os.getcwd())
+print("Model Exists:", os.path.exists(MODEL_PATH))
+print("Model Path:", MODEL_PATH)
 
 try:
 
@@ -54,8 +58,11 @@ try:
     print("✅ Model loaded successfully")
 
 except Exception as e:
+    import traceback
 
-    print("❌ Error loading model:", e)
+    print("❌ MODEL LOAD FAILED")
+    print("ERROR:", str(e))
+    traceback.print_exc()
 
     model = None
 
